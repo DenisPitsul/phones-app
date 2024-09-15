@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,6 +21,7 @@ function App ({ isBrandsFetching, isPhonesFetching }) {
           <Route path='/create-phone' element={<CreatePhonePage />} />
           <Route path='/phone/:id' element={<PhoneDetailsPage />} />
           <Route path='/update-phone/:id' element={<UpdatePhonePage />} />
+          <Route path='*' element={<Navigate to='/' />} />
         </Route>
       </Routes>
     </>
