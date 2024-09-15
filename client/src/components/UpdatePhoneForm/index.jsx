@@ -46,8 +46,6 @@ function UpdatePhoneForm ({
   useEffect(() => {
     getBrands();
     getPhoneById(id);
-
-    console.log('phone', phone);
   }, []);
 
   useEffect(() => {

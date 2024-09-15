@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 import styles from './CreatePhoneForm.module.sass';
 import { CREATE_PHONE_VALIDATION_SCHEMA } from '../../utils/validate/validationSchemas';
 import { getBrandsThunk } from '../../store/slices/brandsSlice';
@@ -18,12 +19,14 @@ function CreatePhoneForm ({
   brands,
   createStatus,
   error,
+  phone,
   getBrands,
   createPhone,
   updateCreateStatus,
   clearErrorFromStore,
 }) {
   const [imageName, setImageName] = useState(null);
+  const navigate = useNavigate();
 
   const initialValues = {
     brandId: '',
@@ -43,6 +46,7 @@ function CreatePhoneForm ({
   useEffect(() => {
     if (createStatus === CONSTANTS.STATUS.SUCCESS) {
       notify('Phone was created');
+      navigate(`/phone/${phone.id}`);
     } else if (createStatus === CONSTANTS.STATUS.ERROR) {
       for (const key in error.errors) {
         notify(error.errors[key].message, CONSTANTS.STATUS.ERROR);
@@ -224,6 +228,7 @@ function CreatePhoneForm ({
 
 const mapStateToProps = ({ brandsData, phonesData }) => ({
   brands: brandsData.brands,
+  phone: phonesData.phone,
   createStatus: phonesData.createStatus,
   error: phonesData.error,
 });

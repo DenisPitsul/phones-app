@@ -20,7 +20,10 @@ export const createPhoneThunk = createAsyncThunk(
   `${PHONES_SLICE_NAME}/create`,
   async (payload, { rejectWithValue }) => {
     try {
-      await API.createPhone(payload);
+      const {
+        data: { data },
+      } = await API.createPhone(payload);
+      return data;
     } catch (err) {
       return rejectWithValue({ errors: err.response.data });
     }
@@ -57,7 +60,10 @@ export const updatePhoneByIdThunk = createAsyncThunk(
   `${PHONES_SLICE_NAME}/updateById`,
   async (payload, { rejectWithValue }) => {
     try {
-      await API.updatePhoneById(payload.id, payload.data);
+      const {
+        data: { data },
+      } = await API.updatePhoneById(payload.id, payload.data);
+      return data;
     } catch (err) {
       return rejectWithValue({ errors: err.response.data });
     }
@@ -101,8 +107,9 @@ const phonesSlice = createSlice({
       state.error = null;
       state.createStatus = CONSTANTS.STATUS.IDLE;
     });
-    builder.addCase(createPhoneThunk.fulfilled, state => {
+    builder.addCase(createPhoneThunk.fulfilled, (state, { payload }) => {
       state.createStatus = CONSTANTS.STATUS.SUCCESS;
+      state.phone = payload;
       state.isFetching = false;
     });
     builder.addCase(createPhoneThunk.rejected, (state, { payload }) => {
@@ -148,8 +155,9 @@ const phonesSlice = createSlice({
       state.error = null;
       state.updateStatus = CONSTANTS.STATUS.IDLE;
     });
-    builder.addCase(updatePhoneByIdThunk.fulfilled, state => {
+    builder.addCase(updatePhoneByIdThunk.fulfilled, (state, { payload }) => {
       state.updateStatus = CONSTANTS.STATUS.SUCCESS;
+      state.phone = payload;
       state.isFetching = false;
     });
     builder.addCase(updatePhoneByIdThunk.rejected, (state, { payload }) => {
