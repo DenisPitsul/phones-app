@@ -1,0 +1,49 @@
+.phoneList
+  display: flex
+  flex-wrap: wrap
+  gap: 20px
+  padding: 0 20px 20px 20px
+
+.phoneItem
+  background-color: #1d1d1d
+  flex-basis: 100%
+  padding: 1rem
+  border-radius: 5px
+  color: white
+  display: flex
+  flex-direction: column
+
+  @media (min-width: 500px)
+    flex-basis: calc((100% / 2) - 10px)
+
+  @media (min-width: 768px)
+    flex-basis: calc((100% / 3) - 15px)
+
+  @media (min-width: 1024px)
+    flex-basis: calc((100% / 4) - 15px)
+
+.phoneImg
+  border-radius: 5px
+  width: 100%
+  object-fit: cover
+
+.phoneModel
+  margin: 1rem 0
+  text-align: center
+  font-weight: 600
+  font-size: 1.5rem
+  line-height: 1.2
+
+.phoneBrand
+  margin-top: auto
+  font-size: 1.2rem
+
+.viewLink
+  margin-top: 1.5rem
+  font-size: 1.5rem
+  border: none
+  color: white
+  text-align: center
+  border-radius: 5px
+  background-color: #2cbfae
+  padding: 0.5rem

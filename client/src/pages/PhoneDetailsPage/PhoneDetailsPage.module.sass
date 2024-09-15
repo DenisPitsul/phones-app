@@ -1,0 +1,73 @@
+.phoneContainer 
+  background-color: #0f0f0f
+  margin-top: 2rem
+  margin-bottom: 2rem
+  padding: 0 20px 20px 20px
+  
+.title
+  padding: 2rem 0
+  font-size: 2rem
+  color: white
+  text-align: center
+
+.error
+  padding: 2rem 0
+  font-size: 2rem
+  color: coral
+  text-align: center
+
+.phoneWrapper
+  background-color: #1d1d1d
+  display: flex
+  flex-direction: column
+
+  @media (min-width: 768px)
+    flex-direction: row
+    align-items: center
+
+.phoneImg
+  object-fit: cover
+
+  @media (min-width: 768px)
+    height: 400px
+
+.phoneInfo
+  padding: 0 20px 20px 20px
+  display: flex
+  flex-grow: 1
+  flex-direction: column
+  gap: 20px
+  color: white
+
+  @media (min-width: 768px)
+    padding-bottom: 0
+
+.phoneTitle
+  font-size: 28px
+  text-align: center
+
+.phoneText
+  font-size: 22px
+
+.buttonsWrapper
+  display: flex
+  justify-content: flex-end
+  gap: 15px
+
+.updateBtn
+  font-size: 1.2rem
+  border: none
+  color: white
+  text-align: center
+  border-radius: 5px
+  background-color: #2cbfae
+  padding: 0.5rem
+
+.deleteBtn
+  font-size: 1.2rem
+  border: none
+  color: white
+  text-align: center
+  border-radius: 5px
+  background-color: coral
+  padding: 0.5rem
