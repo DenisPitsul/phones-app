@@ -44,8 +44,6 @@ module.exports.createPhone = async (req, res, next) => {
 module.exports.getPhones = async (req, res, next) => {
   const { page, limit, offset } = req.pagination;
 
-  console.log(Math.ceil(10 / 10));
-
   try {
     const totalPhoneCount = await Phone.count();
     const foundPhones = await Phone.findAll({

@@ -15,7 +15,6 @@ module.exports.validationErrorHandler = (err, req, res, next) => {
 };
 
 module.exports.multerErrorHandler = (err, req, res, next) => {
-  console.log('err', err);
   if (err instanceof multer.MulterError) {
     return next(createHttpError(500, 'Multer Error'));
   }
