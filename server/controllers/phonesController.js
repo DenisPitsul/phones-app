@@ -60,29 +60,31 @@ module.exports.getPhones = async (req, res, next) => {
       order: ['id'],
     });
 
-    const phonesWithBrand = foundPhones.map(phone => ({
-      id: phone.id,
-      model: phone.model,
-      manufacturedYear: phone.manufacturedYear,
-      ram: phone.ram,
-      cpu: phone.cpu,
-      screenSize: phone.screenSize,
-      hasNfc: phone.hasNfc,
-      image: phone.image
-        ? `http://${process.env.HOST}:${process.env.PORT}/images/${phone.image}`
-        : null,
-      brand: {
-        id: phone['Brand.id'],
-        name: phone['Brand.name'],
-      },
-    }));
+    const preparedPhones = foundPhones.map(p => {
+      let preparedPhone = { ...p };
+      preparedPhone.brand = {
+        id: p['Brand.id'],
+        name: p['Brand.name'],
+      };
+
+      preparedPhone.image = p.image
+        ? `http://${process.env.HOST}:${process.env.PORT}/images/${p.image}`
+        : null;
+
+      preparedPhone = _.omit(preparedPhone, [
+        'brandId',
+        'Brand.id',
+        'Brand.name',
+      ]);
+      return preparedPhone;
+    });
 
     const totalPages = Math.ceil(totalPhoneCount / limit);
 
     res.status(200).send({
       page,
       totalPages,
-      data: phonesWithBrand,
+      data: preparedPhones,
     });
   } catch (err) {
     next(err);
@@ -125,7 +127,23 @@ module.exports.getPhoneById = async (req, res, next) => {
       },
     };
 
-    res.status(200).send({ data: phoneWithBrand });
+    let preparedPhone = { ...foundPhone };
+
+    preparedPhone.brand = {
+      id: foundPhone['Brand.id'],
+      name: foundPhone['Brand.name'],
+    };
+    preparedPhone.image = foundPhone.image
+      ? `http://${process.env.HOST}:${process.env.PORT}/images/${foundPhone.image}`
+      : null;
+
+    preparedPhone = _.omit(preparedPhone, [
+      'brandId',
+      'Brand.id',
+      'Brand.name',
+    ]);
+
+    res.status(200).send({ data: preparedPhone });
   } catch (err) {
     next(err);
   }
