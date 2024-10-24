@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const createHttpError = require('http-errors');
-const { Phone, Brand } = require('../db/models');
+const { Phone, Brand, Preorder } = require('../db/models');
 
 module.exports.createPhone = async (req, res, next) => {
   const { body, file } = req;
@@ -150,7 +150,6 @@ module.exports.updatePhoneById = async (req, res, next) => {
       returning: true,
     });
 
-    console.log(updatedPhone);
     if (!updatedPhonesCount) {
       return next(createHttpError(404, 'Phone Not Found'));
     }
@@ -190,6 +189,62 @@ module.exports.deletePhoneById = async (req, res, next) => {
     }
 
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addPhonePreorder = async (req, res, next) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+
+  try {
+    const foundPhone = await Phone.findByPk(id);
+
+    if (!foundPhone) {
+      next(createHttpError(404, 'Phone Not Found'));
+    }
+
+    const createdPreorder = await Preorder.create({
+      phoneId: id,
+      ...body,
+    });
+
+    if (!createdPreorder) {
+      return next(createHttpError(400, 'Something went wrong'));
+    }
+
+    const preparedPreorder = _.omit(createdPreorder.get(), [
+      'createdAt',
+      'updatedAt',
+    ]);
+
+    res.status(200).send({ data: preparedPreorder });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getPhonePreorders = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const foundPhone = await Phone.findByPk(id);
+
+    if (!foundPhone) {
+      next(createHttpError(404, 'Phone Not Found'));
+    }
+
+    const phonePreorders = await foundPhone.getPreorders({
+      raw: true,
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+
+    console.log('phonePreorders', phonePreorders);
+
+    res.status(200).send({ data: phonePreorders });
   } catch (err) {
     next(err);
   }

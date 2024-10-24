@@ -23,4 +23,9 @@ phonesRouter
   )
   .delete(phonesController.deletePhoneById);
 
+phonesRouter
+  .route('/:id/preorders')
+  .post(phonesController.addPhonePreorder)
+  .get(phonesController.getPhonePreorders);
+
 module.exports = phonesRouter;
