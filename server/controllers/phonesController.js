@@ -110,23 +110,6 @@ module.exports.getPhoneById = async (req, res, next) => {
       return next(createHttpError(404, 'Phone Not Found'));
     }
 
-    const phoneWithBrand = {
-      id: foundPhone.id,
-      model: foundPhone.model,
-      manufacturedYear: foundPhone.manufacturedYear,
-      ram: foundPhone.ram,
-      cpu: foundPhone.cpu,
-      screenSize: foundPhone.screenSize,
-      hasNfc: foundPhone.hasNfc,
-      image: foundPhone.image
-        ? `http://${process.env.HOST}:${process.env.PORT}/images/${foundPhone.image}`
-        : null,
-      brand: {
-        id: foundPhone['Brand.id'],
-        name: foundPhone['Brand.name'],
-      },
-    };
-
     let preparedPhone = { ...foundPhone };
 
     preparedPhone.brand = {
