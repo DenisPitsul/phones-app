@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(...ORDER_STATUSES),
         defaultValue: ORDER_STATUSES[0],
         validate: {
-          isIn: [...ORDER_STATUSES],
+          isIn: [ORDER_STATUSES],
         },
       },
       quantity: {
